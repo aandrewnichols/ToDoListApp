@@ -50,8 +50,7 @@ function App() {
 	const deleteTodo = async id => {
 		const data = await fetch(api_base + '/todo/delete/' + id, { method: "DELETE" }).then(res => res.json());
 
-		setTodos(todos => todos.filter(todo => todo._id !== data._id));
-
+		setTodos(todos => todos.filter(todo => todo._id !== data.result._id));
 	}
 
 	return (
@@ -60,17 +59,20 @@ function App() {
 			<h4>Your tasks</h4>
 
 			<div className="todos">
-                {todos.length > 0 ? todos.map(todo => (
-	                <div className={"todo" + (todo.complete ? " is-complete" : "")} key={todo._id}>
-		                <div className="checkbox"></div>
-		                <div className="text" onClick={() => completeTodo(todo._id)}>{todo.text}</div>
-		                <div className="delete-todo" onClick={(event) => { event.stopPropagation(); deleteTodo(todo._id); }}>x</div>
-	                </div>
-                )) : (
-	                <p>You currently have no tasks</p>
-                )}
-
+    			{todos.length > 0 ? todos.map(todo => (
+        			<div className={"todo" + (todo.complete ? " is-complete" : "")} key={todo._id}>
+            			<div className="checkbox" onClick={() => completeTodo(todo._id)}></div>
+            			<div className="text">{todo.text}</div>
+            			<div className="delete-todo" onClick={(e) => {
+                			e.stopPropagation();  // To prevent triggering parent div's click events
+                			deleteTodo(todo._id);
+            			}}>x</div>
+        			</div>
+    			)) : (
+        			<p>You currently have no tasks</p>
+    			)}
 			</div>
+
 
 			<div className="addPopup" onClick={() => setPopupActive(true)}>+</div>
 
