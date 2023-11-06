@@ -64,7 +64,7 @@ function App() {
             			<div className="checkbox" onClick={() => completeTodo(todo._id)}></div>
             			<div className="text">{todo.text}</div>
             			<div className="delete-todo" onClick={(e) => {
-                			e.stopPropagation();  // To prevent triggering parent div's click events
+                			e.stopPropagation();  
                 			deleteTodo(todo._id);
             			}}>x</div>
         			</div>
